@@ -8,11 +8,11 @@ export async function SignIn(req, res){
     const configToken = { expiresIn: 60 * 60 * 3}
 
     const { email, password } = user;
-    function verifyUserExists(){
-        email && password ? true : res.status(422).send("Insira os campos!");
-        email && password ? true : res.status(422).send("Insira o e-mail!");
-    }
 
     const userFromDatabase = await connection.query(`
     SELECT`)
+}
+
+export function teste(req, res){
+    res.send(["chegou aqui de boas", req.body])
 }
