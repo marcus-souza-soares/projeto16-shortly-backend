@@ -1,4 +1,4 @@
-CREATE TABLE "shortly";
+CREATE DATABASE"shortly";
 
 \c shortly
 
@@ -16,3 +16,11 @@ CREATE TABLE sessions (
    "createdAt" TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE urls (
+	id SERIAL PRIMARY KEY, 
+	"shortUrl" TEXT NOT NULL,
+	url TEXT NOT NULL,
+	"visitCount" INTEGER NOT NULL DEFAULT 0,
+	"userId" INTEGER REFERENCES users(id),
+	"createdAt" TIMESTAMP DEFAULT NOW()	
+);
