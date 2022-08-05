@@ -22,8 +22,6 @@ export async function SignIn(req, res) {
         `
     )
     res.status(200).send(token);
-    // const userFromDatabase = await connection.query(`
-    // SELECT`)
 }
 
 export async function creatUser(req, res) {
@@ -44,8 +42,4 @@ export async function creatUser(req, res) {
         `
     )
     res.status(201).send("Ok");
-}
-
-export function teste(req, res) {
-    res.send(["chegou aqui de boas", req.body])
 }
