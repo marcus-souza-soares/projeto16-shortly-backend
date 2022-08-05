@@ -10,9 +10,10 @@ export async function SignIn(req, res) {
     const { rows: verifyUserExists } = await connection.query(
         "SELECT * FROM users WHERE email = $1", [email]
     )
+    console.log(verifyUserExists)
     const compare_password = bcrypt.compareSync(password, verifyUserExists[0].password);
     if(verifyUserExists.length < 1 || !compare_password){
-        return res.status(401).send("Verifique os campos")
+        return res.status(401).send("Verifique os campos");
     }
     const userId = verifyUserExists[0].id;
 
