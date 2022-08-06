@@ -1,6 +1,7 @@
 import connection from "../db/db.js";
 import { nanoid } from 'nanoid';
 import { urlRepository } from "../repository/urlRepository.js";
+import { authRepository } from "../repository/authRepository.js";
 
 
 export async function postUrl(req, res) {
@@ -21,7 +22,7 @@ export async function getUrlById(req, res) {
 
     const url = await urlRepository.selectUrlById(id);
 
-    if(url.rowCount === 0){
+    if (url.rowCount === 0) {
         return res.status(404).send("URL não encontrada")
     }
     const [dados] = url.rows;
@@ -32,13 +33,31 @@ export async function getUrlById(req, res) {
     })
 }
 
-export async function getShortUrlByName(req, res){
+export async function getShortUrlByName(req, res) {
     const { shortUrl } = req.params;
-    const result  = await urlRepository.selectShortUrlByName(shortUrl)
-    if(result.rowCount === 0){
+    const result = await urlRepository.selectShortUrlByName(shortUrl)
+    if (result.rowCount === 0) {
         return res.status(404).send("URL não encontrada");
     }
     const [link] = result.rows;
     await urlRepository.incrementViewShortUrl(link.id)
     res.redirect(link.url);
+}
+
+export async function deleteUrl(req, res) {
+    const { id } = req.params;
+    const { userId } = res.locals;
+
+    const result = await urlRepository.selectUrlById(id)
+    const id_user = result.rows[0].userId;
+    console.log(result.rows)
+    //caso a url não pertenca ao usuário 
+    if (userId !== id_user){
+        return res.sendStatus(401);
+    }
+    if (result.rowCount === 0) {
+        return res.status(404).send("URL não encontrada");
+    }
+    await urlRepository.deleteUrl(id);
+    res.status(204).send("Deletou");
 }

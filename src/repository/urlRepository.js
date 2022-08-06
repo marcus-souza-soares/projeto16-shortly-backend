@@ -24,9 +24,16 @@ async function incrementViewShortUrl(id){
          WHERE id = $1`, [id]
     )
 }
+
+async function deleteUrl(id) {
+    return await connection.query(
+        'DELETE FROM urls WHERE id = $1', [id]
+    )
+}
 export const urlRepository = {
     insertNewShortUrl,
     selectUrlById,
     selectShortUrlByName,
-    incrementViewShortUrl
+    incrementViewShortUrl,
+    deleteUrl
 }
