@@ -1,7 +1,6 @@
-import connection from "../db/db.js";
 import { nanoid } from 'nanoid';
 import { urlRepository } from "../repository/urlRepository.js";
-import { authRepository } from "../repository/authRepository.js";
+
 
 
 export async function postUrl(req, res) {
