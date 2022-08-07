@@ -61,3 +61,7 @@ export async function deleteUrl(req, res) {
     await urlRepository.deleteUrl(id);
     res.status(204).send("Deletou");
 }
+export async function getRanking(req, res){
+    const ranking = await urlRepository.selectUrlsLimited();
+    res.status(200).send(ranking.rows)
+}
