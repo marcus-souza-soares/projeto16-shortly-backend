@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { authRepository } from '../repository/authRepository.js';
+import { urlRepository } from '../repository/urlRepository.js';
 
 export async function SignIn(req, res) {
     const {email, password} = req.body;
@@ -33,4 +34,14 @@ export async function creatUser(req, res) {
 
     await authRepository.createUser(name, email, crypted_password)
     res.status(201).send("Ok");
+}
+export async function getUserUrlsData(req, res){
+    const { userId } = res.locals;
+    const { rows: user } = await authRepository.getUserById(id);
+    if(user.length < 1){
+        return res.status(404).send("Usuário não encontrado.")
+    }
+    console.log(userId)
+    const dataOfUser = await urlRepository.getUserDataAndUrls(userId);
+    res.send(dataOfUser)
 }
